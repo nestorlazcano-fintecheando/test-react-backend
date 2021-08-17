@@ -1,10 +1,10 @@
 const { ApolloServer, AuthenticationError } = require('apollo-server-express');
 const express = require('express');
-const config = require('../config');
+const config = require('./config');
 const jwt = require('jsonwebtoken');
 
-const { resolvers } = require('./resolvers');
-const { typeDefs } = require('./typeDefs');
+const { resolvers } = require('./src/resolvers');
+const { typeDefs } = require('./src/typeDefs');
 
 const app = express();
 
@@ -32,8 +32,10 @@ const server = new ApolloServer({
 server.start().then( () => {
   server.applyMiddleware({ app });
 
-  app.listen({ port: 4000 }, () =>
-    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+  const PORT = process.env.PORT || 8080;
+
+  app.listen({ port: PORT }, () =>
+    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
   );
 });
 
